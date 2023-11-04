@@ -1,0 +1,281 @@
+/* profile */
+
+
+.profile_div{
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    margin-left: 450px;
+    margin-top: 40px;
+    
+
+    
+}
+
+
+/* Rectangle 11 */
+
+
+
+
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+}
+.edit_btn{
+    box-sizing: border-box;
+    position: relative;
+    width: 180px;
+    height: 30px;
+    font-family: 'Inknut Antiqua';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 26px;
+  
+    margin-right: 50px; 
+    margin-top: 100px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 5px;
+
+    color: #000000;
+    mix-blend-mode: darken;
+}
+
+
+
+/* image 7 */
+.profile_image{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    left: 198px;
+    top: 45px;
+    border-radius: 50%;
+
+}
+
+/* My Posts */
+
+/* position: absolute;
+width: 55px;
+height: 33px;
+left: 42px;
+top: 205px;
+
+font-family: 'Inknut Antiqua';
+font-style: normal;
+font-weight: 600;
+font-size: 10px;
+line-height: 26px; */
+
+/* color: #000000; */
+
+
+
+/* SavedPosts */
+/* 
+position: absolute;
+width: 78px;
+height: 33px;
+left: 41px;
+top: 231px;
+
+font-family: 'Inknut Antiqua'; */
+/* font-style: normal;
+font-weight: 600;
+font-size: 10px;
+line-height: 26px;
+
+color: #000000; */
+
+
+
+/* Followers */
+
+/* position: absolute;
+width: 78px;
+height: 33px;
+left: 42px;
+top: 257px;
+
+font-family: 'Inknut Antiqua';
+font-style: normal;
+font-weight: 600;
+font-size: 10px;
+line-height: 26px;
+
+color: #000000; */
+
+
+
+/* Following */
+
+/* position: absolute;
+width: 78px;
+height: 33px;
+left: 42px;
+top: 286px;
+
+font-family: 'Inknut Antiqua';
+font-style: normal;
+font-weight: 600;
+font-size: 10px;
+line-height: 26px; */
+
+/* color: #000000; */
+
+
+
+
+/* image 8 */
+
+/* position: absolute;
+width: 18.91px;
+height: 20px;
+left: 34px;
+top: 209.08px;
+
+background: url(image.png);
+transform: matrix(-1, 0, 0, 1, 0, 0); */
+
+
+/* image 9 */
+
+/* position: absolute;
+width: 18.91px;
+height: 20px;
+left: 34px;
+top: 235.08px;
+
+background: url(image.png);
+transform: matrix(-1, 0, 0, 1, 0, 0); */
+
+
+/* image 10 */
+
+/* position: absolute;
+width: 30px;
+height: 24px;
+left: 11px;
+top: 259px;
+
+background: url(image.png);
+backdrop-filter: blur(2px); */
+/* Note: backdrop-filter has minimal browser support */
+
+
+/* image 11 */
+
+/* position: absolute;
+width: 30px;
+height: 24px;
+left: 11px;
+top: 287px;
+
+background: url(image.png);
+backdrop-filter: blur(2px); */
+/* Note: backdrop-filter has minimal browser support */
+
+
+/* Messages */
+
+/* position: absolute;
+width: 78px;
+height: 33px;
+left: 41px;
+top: 309px;
+
+font-family: 'Inknut Antiqua';
+font-style: normal;
+font-weight: 600;
+font-size: 10px;
+line-height: 26px;
+
+color: #000000; */
+
+
+
+/* image 24 */
+/* 
+position: absolute;
+width: 20px;
+height: 18px;
+left: 16px;
+top: 316px;
+
+background: url(image.png); */
+
+
+/* name */
+/* 
+position: absolute;
+width: 56px;
+height: 46px;
+left: 24px;
+top: -1px;
+
+font-family: 'Inknut Antiqua';
+font-style: normal;
+font-weight: 600;
+font-size: 18px;
+line-height: 46px;
+
+color: #000000; */
+
+
+
+/* sreelakshmi */
+.user_name{
+    position: absolute;
+    width: 57px;
+    height: 12px;
+    left: 195px;
+    top: 210px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 12px;
+
+    color: #000000; 
+}
+
+.details{
+    position: absolute;
+   
+    left: 150px;
+    top: 300px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 15px;
+
+    color: #000000;
+}
+.numbers{
+    display: flex;
+    margin-left: 200px;
+}
+.number{
+    
+    position: relative;
+    height: 26px;
+    font-family: 'Inknut Antiqua';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 26px;
+    color: #000000;
+    margin-right: 50px; 
+    margin-top: 250px;
+}
+

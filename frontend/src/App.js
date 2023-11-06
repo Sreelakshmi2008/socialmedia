@@ -3,7 +3,6 @@ import UserRouter from "./routes/userRouters";
 import { Suspense, lazy } from "react";
 import AdminRouter from "./routes/adminRoutes";
 
-
 function App() {
   return (
     <BrowserRouter>

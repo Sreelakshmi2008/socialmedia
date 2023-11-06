@@ -212,3 +212,29 @@
     margin-left: 10px;
 }
 
+
+/* logout */
+
+.logout{
+    width: 100%;
+    height: 10%;
+    margin-top: 10px;
+    /* background-color: pink; */
+    padding-top: 0px;
+    padding-left: 15px;
+}
+
+.logout_link{
+   
+    font-family: 'Inknut Antiqua';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 26px;
+
+    color: #000000;
+    margin-left: 40px;
+    border: none;
+    background-color: transparent;
+}
+

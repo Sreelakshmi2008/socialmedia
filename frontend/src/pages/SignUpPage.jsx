@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function SignUp(){
 
     const navigate = useNavigate() 
+    const [errors, setErrors] = useState({});
+
     // function which sends data to backend signup view function
     const signupUser = async (credentials) => {
         try {
@@ -22,8 +24,32 @@ function SignUp(){
           console.log(response.data);
           navigate('/')
         } catch (error) {
-          console.error(error);
-          alert(error.response.data)
+          setErrors(error.response.data);
+          console.error(error.response.data);
+          Object.keys(errors).forEach(field => {
+            console.log(field)
+            if(field=="email"){
+              alert(`Email : ${errors[field][0]}`);
+            }
+            if(field=="first_name"){
+              alert(`First Name: ${errors[field][0]}`);
+            }
+            if(field=="last_name"){
+              alert(`Last Name: ${errors[field][0]}`);
+            }
+            if(field=="phone"){
+              alert(`Phone: ${errors[field][0]}`);
+            }
+            if(field=="profile_pic"){
+              alert(`Profile Picture: ${errors[field][0]}`);
+            }
+            if(field=="password"){
+              alert(`Password: ${errors[field][0]}`);
+            }
+          
+        });
+
+         
         }
     }
     
@@ -70,7 +96,7 @@ function SignUp(){
 
         // if passwords donot match, alert users
         else{
-            alert("Passwrods dont match")
+            alert("Passwords donot match")
         }
 
 

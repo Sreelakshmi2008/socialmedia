@@ -1,10 +1,18 @@
 import './SideBar.css';
 import { baseUrl} from '../utils/constants';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 function SideBar({pic}){
+    
+    const navigate = useNavigate()
+    const handleUserLogout = ()=>{
+        localStorage.removeItem('jwtToken');
+    
+        navigate('/')
+      }
+
     return(
         <div className="box2">
             <div className='myprofile'>
@@ -31,6 +39,11 @@ function SideBar({pic}){
                   <img className="messages_pic" src={baseUrl+pic} />
                   <span className="messages_text">Messages</span>
             </div>
+            <div className='logout'>
+                  {/* <img className="messages_pic" src={baseUrl+pic} /> */}
+                  <button className="logout_link" onClick={handleUserLogout}>Log Out</button>
+            </div>
+              
               
 
 

@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 
 # user register serializer
 class UserRegisterSerializer(serializers.ModelSerializer): 
-    print("ser")
+    print("serializer for registering user")
     profile_pic = serializers.ImageField(required=False)  # Update the field definition
 
     class Meta:
@@ -19,10 +19,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         profile_pic = data.pop('profile_pic', None)
         user = CustomUser.objects.create_user(**data, profile_pic=profile_pic)
-
-        
-
-       
         
         print(user)
         return user
@@ -36,10 +32,10 @@ class UserLoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get('email')
         password = make_password(data.get('password'))
-
+    
         return data
 
 class GetUserSerializer(serializers.ModelSerializer):
      class Meta:
         model = CustomUser
-        fields = ('id','first_name','last_name','email','phone','profile_pic')
+        fields = ('id','first_name','last_name','email','phone','profile_pic','is_active','is_staff','is_superuser','password')

@@ -1,6 +1,6 @@
 import './LandingPage.css'
 import axios from 'axios'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {baseUrl,login} from '../utils/constants';
 import { useNavigate,Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,6 +11,12 @@ function Landing(){
 
 const navigate = useNavigate()
 
+useEffect(()=>{
+const isLoggedIn = localStorage.getItem('jwtToken');
+if (isLoggedIn) {
+    navigate('/homepage');  // Redirect to the homepage
+}
+},[])
 const loginUser = async (credentials) => {
     try {
       const response = await axios.post(baseUrl+login, credentials);

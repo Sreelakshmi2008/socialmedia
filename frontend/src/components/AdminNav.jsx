@@ -1,5 +1,5 @@
 import './AdminNav.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,14 @@ import { baseUrl} from '../utils/constants';
 
 
 function AdminNav() {
+
+  const navigate = useNavigate()
+
+  const handleLogout = ()=>{
+    localStorage.removeItem('jwtTokenAdmin');
+
+    navigate('/admin')
+  }
   return (
     <div className='admin_navbar'>
         <div className="input-group md-form form-sm form-1 pl-0">
@@ -19,7 +27,7 @@ function AdminNav() {
         </div>
       <div className='admin_logout'>
       
-        <span>Log Out</span>
+        <span onClick={handleLogout} className='logout_link'>Log Out</span>
       </div>
     </div>
   );

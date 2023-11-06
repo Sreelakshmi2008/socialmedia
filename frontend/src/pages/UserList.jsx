@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { baseUrl, registeredUsers} from '../utils/constants';
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link} from 'react-router-dom'
 
-const UserList = () => {
-  const [users,setUsers] = useState([])
-  useEffect(
-    axios.get(baseUrl+registeredUsers)
-    .then(response => {
-        setUsers.append(response.data);
-        console.log(response.data)
-    })
-    .catch(error => {
-        console.error('Error fetching user details:', error);
-    })
-    ,[])
+const UserList = ({users}) => {
+  
 
   return (
     <div>
-      <h2>User List</h2>
-      <ul>
+      <h2 style={{color:'black',fontSize:'20px',marginLeft:'25%',marginTop:'5%'}}>User List</h2>
+      <ol style={{
+        display:'flex',
+        flexDirection:'column',
+        marginLeft:'30%',
+        marginTop:'2%',
+        overflow:'scroll'
+       
+      }}>
         {users.map((user, index) => (
-          <li key={index}>{user}</li>
+          <li className='mb-2' key={user.id}>
+            <Link to={`/admin/admin_user/${user.email}`} style={{ backgroundColor:'transparent',textDecoration: 'none', color: 'blue', transformOrigin: 'center', display: 'inline-block' }}
+              onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+              onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            > {user.email}</Link>
+          </li>
         ))}
-      </ul>
+      </ol>
     </div>
   );
 };

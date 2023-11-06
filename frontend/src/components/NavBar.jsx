@@ -7,6 +7,10 @@ import { baseUrl} from '../utils/constants';
 
 
 function NavBar({ name, pic }) {
+
+
+
+
   return (
     <div className='navbar'>
       <ul>
@@ -17,7 +21,7 @@ function NavBar({ name, pic }) {
               <FontAwesomeIcon icon={faSearch} className="text-black" />
             </span>
           </div>
-          <input className="form-control my-0 py-1 small-input" type="text" placeholder="Search accounts.........." aria-label="Search" />
+          <input className="form-control  py-1 small-input" type="text" placeholder="Search accounts.........." aria-label="Search" />
         </div>
       </ul>
       <div className='nav_profile'>

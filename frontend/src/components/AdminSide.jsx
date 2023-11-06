@@ -12,7 +12,7 @@ function AdminSide(){
           
             <ul>
                     <li className="admin_dash_link">Dashboard</li>
-                    <li className="admin_user"><Link to='/admindash' className='admin_user_link'>User Management</Link></li>
+                    <li className="admin_user"><Link to='#' className='admin_user_link'>User Management</Link></li>
             </ul>
             
           

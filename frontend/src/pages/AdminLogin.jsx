@@ -1,6 +1,6 @@
 import './AdminLogin.css'
 import axios from 'axios'
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import {baseUrl,login} from '../utils/constants';
 import { useNavigate,Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,20 +11,32 @@ import {jwtDecode} from "jwt-decode";
 
 function AdminLogin(){
 
-            
+        useEffect(()=>{
+            const isLoggedIn = localStorage.getItem('jwtTokenAdmin');
+            if (isLoggedIn) {
+                navigate('/admin/admindash');  // Redirect to the homepage
+            }
+            },[])
         const navigate = useNavigate()
         const adminlogin = async (credentials) => {
             try {
             const response = await axios.post(baseUrl+login, credentials);
-            console.log(response.data);
+            console.log("response printed",response.data);
             const decodedToken = jwtDecode(response?.data?.access);
+            console.log(decodedToken.is_superuser)
             if (decodedToken.is_superuser) {
-               localStorage.setItem('jwtToken', response.data.access);
+               localStorage.setItem('jwtTokenAdmin', response.data.access);
+               console.log("saved succesfully")
+               navigate('/admin/admindash');
             } 
-            console.log(decodedToken)
-            navigate('/admindash    ', { state: response.data  });
+            else{
+                alert("Not a superuser")
+            }
+           
+
             }
             catch (error) {
+            alert("wrong credentials")
             console.error(error);
             }
         };

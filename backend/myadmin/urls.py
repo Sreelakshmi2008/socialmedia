@@ -6,6 +6,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('registeredUsers',RegisteredUsers.as_view(),name='registeredUsers'),
+    path('userdetail/<str:userEmail>/',UserDetail.as_view(),name='userdetail'),
+    path('deleteuser/<int:id>/',DeleteUser.as_view(),name='deleteuser'),
+    path('blockuser/<int:id>/',BlockUser.as_view(),name='blockuser'),
+
+
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

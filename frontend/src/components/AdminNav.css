@@ -57,3 +57,6 @@
     margin-right:1px;
   }
   
+  .logout_link:hover{
+    cursor: pointer;
+  }

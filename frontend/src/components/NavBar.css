@@ -1,87 +1,59 @@
-
-/* NavBar.css */
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #ffffff;
   padding: 10px;
+}
 
-  margin-top: 0;
-  width: 100vw;
+.navbar-brand {
+  margin-right: auto; /* Push the brand to the left */
 }
 
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  
-  display: flex; /* Added to make the ul a flex container */
-}
-ul li a{
-  text-decoration: none;
-  color: black;
-  font-size: 15px;
+  display: flex;
 }
 
 ul li {
-  margin-right: 100px; /* Adjust spacing between list items */
+  margin-right: 700px;
 }
 
 .nav_profile {
   display: flex;
   align-items: center;
-
- 
 }
 
-
-li a:hover:not(.active) {
-  background-color: #111;
+.input-group {
+  margin-left: 375px;
 }
 
-.active {
-  background-color: #04AA6D;
-}
-
-
-/* Add this to NavBar.css */
-.input-group.md-form.form-sm.form-1 {
-  height: auto;
-  margin-left: 0px; /* Adjust the margin as needed */
-}
-
-.input-group.md-form.form-sm.form-1 input {
-  border: 1px solid #bdbdbd;
-  border-radius: 2rem;
+.input-group input {
+  border: 2px solid #bdbdbd;
+  border-radius: 10rem;
   font-size: 12px;
   padding: 0.25rem;
-  width: 600px; /* Set the width explicitly, adjust as needed */
-  border-left: 0;
-  margin-top: 1px;
 }
 
-
-.input-group.md-form.form-sm.form-1 .input-group-prepend .input-group-text {
-  border-top-left-radius: 2rem;
-  border-bottom-left-radius: 2rem;
-  border-right: 0px;
-  border-left: 1px solid #bdbdbd;
-  border-top: 1px solid #bdbdbd;
-  border-bottom: 1px solid #bdbdbd;
+.input-group .input-group-text {
   background-color: white;
 }
 
-.nav_profile img {
-  width: 50px;
-  height: 50px;
+.nav_profile img,
+.nav_image {
   border-radius: 50%;
-  margin-right:20px;
- 
+  margin-right: 10px;
 }
-
 
 .nav_profile span {
   white-space: nowrap;
-  margin-right:50px;
+  margin-right: 100px;
+}
+
+@media (max-width: 991px) {
+  .nav_profile{
+    display: none; /* Hide username on smaller screens */
+  }
 }

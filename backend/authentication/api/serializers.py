@@ -11,14 +11,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'password', 'first_name', 'last_name', 'phone','profile_pic')
+        fields = ('username', 'email', 'password', 'name', 'phone','profile_pic')
 
     # create user
     def create(self, data):
         print("Create method in UserRegisterSerializer is called")
 
         profile_pic = data.pop('profile_pic', None)
-        user = CustomUser.objects.create_user(**data, profile_pic=profile_pic)
+        user = CustomUser.objects.create_user(**data)
         
         print(user)
         return user
@@ -26,16 +26,17 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 class UserLoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(write_only=True) 
+    email_or_username = serializers.CharField(required=True)
+    password = serializers.CharField(write_only=True)
+    
    
     def validate(self, data):
-        email = data.get('email')
-        password = make_password(data.get('password'))
+        email_or_username = data.get('email_or_username')
+        password = data.get('password')
+        print(data,"serializer data")
     
         return data
-
 class GetUserSerializer(serializers.ModelSerializer):
      class Meta:
         model = CustomUser
-        fields = ('id','first_name','last_name','email','phone','profile_pic','is_active','is_staff','is_superuser','password')
+        fields = ('id','username', 'email', 'password', 'name', 'phone','profile_pic','is_active','is_staff','is_superuser','is_deleted')

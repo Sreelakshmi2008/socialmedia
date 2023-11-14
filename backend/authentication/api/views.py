@@ -10,13 +10,15 @@ from rest_framework.authentication import authenticate
 # from django.contrib.auth import authenticate
 from authentication.models import CustomUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
-
+from rest_framework.parsers import MultiPartParser
+from rest_framework_simplejwt.views import TokenRefreshView
+from jwt.exceptions import ExpiredSignatureError
 
 
 # user regiatration  view
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser]
 
     def post(self, request):
         data = request.data
@@ -40,6 +42,7 @@ class LoginView(APIView):
     
     def post(self,request):
         data = request.data
+        print(data)
        
         #fetched data sending to serializer
         serializer = UserLoginSerializer(data=data)
@@ -47,16 +50,17 @@ class LoginView(APIView):
         if serializer.is_valid(raise_exception=True):
 
             # if valid data fetched
-            email = serializer.validated_data['email']
+        
+            email_or_username = serializer.validated_data['email_or_username']
             password = serializer.validated_data['password']
             
-            # authenticate with this email and password
-            user = authenticate(request, email=email, password=password)
             
+            # authenticate is with email or username
+            user = authenticate(request, username=email_or_username, password=password)
             print(user)
             
             #if user, instance is returned and create token and considered as user logged in
-            if user is not None:
+            if user is not None and user.is_deleted is False:
                 print("succes login")
                 refresh = RefreshToken.for_user(user)
                 
@@ -67,7 +71,7 @@ class LoginView(APIView):
 
                 return Response(
                     {
-                        "email": email,
+                        "email_or_username": email_or_username,
                         "password":password,
                         "access": access_token,
                         "refresh": refresh_token,
@@ -94,5 +98,8 @@ class GetUserView(APIView):
         serializer = GetUserSerializer(instance=user_details)
         print(serializer.data)
         return Response(serializer.data,status=200)
+
+
+
 
 

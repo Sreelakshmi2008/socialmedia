@@ -19,7 +19,7 @@ function UserDetail(props){
    
 
    console.log(userblocked,"user blocked or not")
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem('jwtTokenAdmin');
     console.log(token)
 
     // Include the token in the Authorization header
@@ -46,7 +46,7 @@ function UserDetail(props){
         });
     }, [userEmail]);
   
-   
+   console.log(users.is_active,"user blocked or notttttttttttttt")
 
     const handleDeleteUser = async (id) => {
         Swal.fire({
@@ -58,9 +58,9 @@ function UserDetail(props){
           confirmButtonText: "Yes",
         }).then((result) => {
           if (result.isConfirmed) {
-            const url = `${baseUrl}${deleteuser}/${id}`;
+            const url = `${baseUrl}${deleteuser}/${id}/`;
             axios
-              .delete(url,config)
+              .patch(url,config)
               .then((res) => {
                 console.log("user deleted");
                 setUserdeleted(true)
@@ -78,28 +78,39 @@ function UserDetail(props){
 
     //   handle block button clicking event
     const handleBlockUser = async (id) => {
-        Swal.fire({
-          title: "Are you sure?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            const url = `${baseUrl}${blockuser}/${id}`;
-            axios
-              .get(url,config)
-              .then((res) => {
-                console.log("success");
-                setUserblocked(!userblocked)
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }
-        });
-      };
+      Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const url = `${baseUrl}${blockuser}/${id}/`;
+          // Send data to indicate the change in is_active status
+          const data = {
+            is_active: !users.is_active,
+          };
+    
+          axios
+            .patch(url, data, config)
+            .then((res) => {
+              console.log("success");
+              setUserblocked(!userblocked);
+    
+              // Update the state based on the new value of is_active
+              setUsers((prevUsers) => ({
+                ...prevUsers,
+                is_active: !prevUsers.is_active,
+              }));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      });
+    };
     return(
         <div>
             <AdminSide/>
@@ -164,10 +175,11 @@ function UserDetail(props){
             <span>{users.password}</span>
             </li>
             <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-            <span style={{ width: '150px', marginRight: '10px' }}>is active</span>
-            <span style={{ marginRight: '10px' }}>: </span>
-            <input type='checkbox' checked={users.is_active}/>
+              <span style={{ width: '150px', marginRight: '10px' }}>is active</span>
+              <span style={{ marginRight: '10px' }}>: </span>
+              <input type='checkbox' checked={users.is_active} readOnly />
             </li>
+
             <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
             <span style={{ width: '150px', marginRight: '10px' }}>is staff</span>
             <span style={{ marginRight: '10px' }}>: </span>
@@ -191,7 +203,7 @@ function UserDetail(props){
                 width:'100px',
                 borderRadius:'5px'
                 }}
-                onClick={() => handleBlockUser(users.id)}>{userblocked?"Block":"Unblock"}</button>
+                onClick={() => handleBlockUser(users.id)}>{users.is_active ? "Block" : "Unblock"}</button>
             </div>
           
 

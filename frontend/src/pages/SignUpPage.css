@@ -285,3 +285,19 @@
 .btn.create:focus {
     box-shadow: 0 0 0 0.2rem rgba(128, 9, 9, 0.5);
 }
+
+
+.error{
+border:2px solid red;
+}
+
+
+
+.form-group:nth-child(6) .error_input {
+    top: 495px; /* Adjust the top position for the sixth form group */
+}
+
+/* Add more styles or adjust as needed */
+.ReactCrop{
+    display: block;
+  }

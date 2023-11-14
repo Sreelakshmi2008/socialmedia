@@ -26,6 +26,8 @@ function AdminLogin(){
             console.log(decodedToken.is_superuser)
             if (decodedToken.is_superuser) {
                localStorage.setItem('jwtTokenAdmin', response.data.access);
+               localStorage.setItem('refreshjwtTokenAdmin', response.data.refresh);
+
                console.log("saved succesfully")
                navigate('/admin/admindash');
             } 
@@ -41,15 +43,15 @@ function AdminLogin(){
             }
         };
 
-        const [email, setEmail] = useState('');
+        const [email_or_username, setEmail] = useState('');
         const [password, setPassword] = useState('');
 
         const handleSubmit = async (event) => {
             event.preventDefault();
-            console.log(email,password,"state")
+            console.log(email_or_username,password,"state")
         
             const formData = {
-            email,password
+                email_or_username,password
             };
         
             // Call your login function
@@ -64,7 +66,7 @@ function AdminLogin(){
             <h1 className="admin_title">Admin</h1>
             <form onSubmit={handleSubmit}>
                 <input type='text' className='adminemail form-control' placeholder='Email.......'
-                    value={email} onChange={(e) => setEmail(e.target.value)} />
+                    value={email_or_username} onChange={(e) => setEmail(e.target.value)} />
                 <input type='password' className='adminpassword form-control' placeholder='Password.......'
                     value={password} onChange={(e) => setPassword(e.target.value)} />
                 <button className='admin_login btn pt-1' type='submit'>Login</button>

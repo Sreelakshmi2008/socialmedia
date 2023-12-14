@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
-from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,9 +48,11 @@ INSTALLED_APPS = [
     'social_django',
     'drf_social_oauth2',
     "corsheaders",
+
     'authentication',
     'myadmin',
     'posts',
+    'chat',
 
 ]
 
@@ -84,7 +87,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'socialmedia.wsgi.application'
+# WSGI_APPLICATION = 'socialmedia.wsgi.application'
+ASGI_APPLICATION = 'socialmedia.asgi.application'
+
 
 
 # Database
@@ -93,7 +98,7 @@ WSGI_APPLICATION = 'socialmedia.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "socialmedia",
+        "NAME": "media",
         "USER": "root",
         "PASSWORD": "1234",
         "HOST": "localhost",
@@ -127,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -163,7 +168,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
+     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
      'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
      'ROTATE_REFRESH_TOKENS': True,
      'BLACKLIST_AFTER_ROTATION': True
@@ -184,11 +189,23 @@ AUTHENTICATION_BACKENDS = (
 
 
 # Google configuration
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+BASE_FRONTEND_URL = os.environ.get('DJANGO_BASE_FRONTEND_URL') 
+GOOGLE_OAUTH2_CLIENT_ID = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 # Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
 ]
+
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

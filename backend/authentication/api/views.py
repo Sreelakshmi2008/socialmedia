@@ -11,9 +11,8 @@ from rest_framework.authentication import authenticate
 from authentication.models import CustomUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.parsers import MultiPartParser
-from rest_framework_simplejwt.views import TokenRefreshView
-from jwt.exceptions import ExpiredSignatureError
-
+from rest_framework.decorators import api_view, permission_classes
+import requests
 
 # user regiatration  view
 class RegisterView(APIView):
@@ -30,60 +29,62 @@ class RegisterView(APIView):
 
             # if valid user is created using serializer
             user = serializer.save()
+            print(serializer.data,"serializer data")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
-# user login view using JWT token
 class LoginView(APIView):
     permission_classes = [AllowAny]
     
-    def post(self,request):
+    def post(self, request):
         data = request.data
         print(data)
        
-        #fetched data sending to serializer
+        # fetched data sending to serializer
         serializer = UserLoginSerializer(data=data)
-       
-        if serializer.is_valid(raise_exception=True):
-
-            # if valid data fetched
+        print(serializer)
         
+        if serializer.is_valid(raise_exception=True):
+            # If valid data fetched
             email_or_username = serializer.validated_data['email_or_username']
             password = serializer.validated_data['password']
             
-            
-            # authenticate is with email or username
-            user = authenticate(request, username=email_or_username, password=password)
-            print(user)
-            
-            #if user, instance is returned and create token and considered as user logged in
-            if user is not None and user.is_deleted is False:
-                print("succes login")
-                refresh = RefreshToken.for_user(user)
+            try:
+                # authenticate with email or username
+                user = authenticate(request, username=email_or_username, password=password)
+                print(user)
                 
-                refresh['email'] = user.email
-                refresh['is_superuser'] = user.is_superuser
-                access_token = str(refresh.access_token)
-                refresh_token = str(refresh)
+                # if user instance is returned and create token and considered as user logged in
+                if user:
+                    if user.is_deleted:
+                        return Response({"details": "This account has been deleted."}, status=401)
 
-                return Response(
-                    {
-                        "email_or_username": email_or_username,
-                        "password":password,
-                        "access": access_token,
-                        "refresh": refresh_token,
-                    },
-                    status=201,
-                )
+                    print("success login")
+                    refresh = RefreshToken.for_user(user)
+                    refresh['email'] = user.email
+                    refresh['is_superuser'] = user.is_superuser
+                    access_token = str(refresh.access_token)
+                    refresh_token = str(refresh)
 
-            # if user none, wrong email or passord
-            else:
-                return Response({"details" : "wrong email or password"}, status=401)
- 
+                    return Response(
+                        {
+                            "email_or_username": email_or_username,
+                            "password": password,
+                            "access": access_token,
+                            "refresh": refresh_token,
+                        },
+                        status=201,
+                    )
+                else:
+                    # If user is None, wrong email or password
+                    return Response({"details": "Invalid email or password"}, status=401)
 
+            except CustomUser.DoesNotExist:
+                # If user doesn't exist, wrong email or password
+                return Response({"details": "no user email or password"}, status=401)
 
 # get details of logged in user
 class GetUserView(APIView):
@@ -100,6 +101,86 @@ class GetUserView(APIView):
         return Response(serializer.data,status=200)
 
 
+from google.auth.transport.requests import Request as AuthRequest
+from google.oauth2 import id_token
+class GoogleLoginView(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        token = request.data['google_token']
+        try:
+            auth_request = AuthRequest()
+
+            # Validate the Google OAuth token
+            id_info = id_token.verify_oauth2_token(token, auth_request)
+
+            user_email = id_info['email']
+
+            print(user_email)
+            
+            try:
+                print("try")
+                user_exist = CustomUser.objects.get(email=user_email)
+                if user_exist.is_deleted:
+                        return Response({"details": "This account has been deleted."}, status=401)
+
+                print("success login")
+                refresh = RefreshToken.for_user(user_exist)
+                refresh['email'] = user_exist.email
+                refresh['is_superuser'] = user_exist.is_superuser
+                access_token = str(refresh.access_token)
+                refresh_token = str(refresh)
+
+                return Response(
+                    {
+                        "email_or_username": user_email,
+                        "access": access_token,
+                        "refresh": refresh_token,
+                    },
+                    status=201,
+                )
+            except CustomUser.DoesNotExist:
+                print("except")
+                return Response({"details": "User does not exist."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        except ValueError as e:
+            return Response({'error': f'Invalid token: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+         
+      
+
+class ChangeProfilePicView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[JWTAuthentication]
+    parser_classes = [MultiPartParser]
+    def patch(self,request):
+        print(request.data)
+        u = request.user
+        print(request.data.get('profile_pic'))
+        u.profile_pic = request.data.get('profile_pic')
+        u.save()
+        print(u.profile_pic)
+        return Response({'message':"success",'updatedProfilePic':u.profile_pic.url},status=200)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def CheckAuth(request):
+    # If the view reaches here, the user is authenticated
+    return Response({'message': 'Authenticated'})
 
 
 
+class EditProfileView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[JWTAuthentication]
+    
+    def patch(self,request):
+        print(request.data)
+        u = request.user
+        u.username = request.data.get('username')
+        u.name = request.data.get('name')
+        u.email = request.data.get('email')
+        u.phone = request.data.get('phone')
+        u.save()
+        return Response({'message':"success"},status=200)
+    

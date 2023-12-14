@@ -18,7 +18,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         print("Create method in UserRegisterSerializer is called")
 
         profile_pic = data.pop('profile_pic', None)
-        user = CustomUser.objects.create_user(**data)
+        user = CustomUser.objects.create_user(**data,profile_pic=profile_pic)
         
         print(user)
         return user
@@ -39,4 +39,5 @@ class UserLoginSerializer(serializers.Serializer):
 class GetUserSerializer(serializers.ModelSerializer):
      class Meta:
         model = CustomUser
-        fields = ('id','username', 'email', 'password', 'name', 'phone','profile_pic','is_active','is_staff','is_superuser','is_deleted')
+        fields = '__all__'
+

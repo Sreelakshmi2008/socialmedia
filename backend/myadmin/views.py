@@ -10,7 +10,7 @@ from rest_framework.authentication import authenticate
 from authentication.models import CustomUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from posts.models import *
-
+from posts.serializer import *
 
 # Create your views here.
 
@@ -91,4 +91,24 @@ class DeleteComment(APIView):
             print("post not found")
             return Response({"message": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
        
+
+class AdminUserPosts(APIView):
+    permission_classes=[IsAdminUser]
+    def get(self,request,userEmail):
+        print(" requested for details of user")
+        detail = CustomUser.objects.get(email=userEmail)
+        print(detail)
+        p = Post.objects.filter(user=detail)
+        serializer = GetPostSerializer(instance=p,many=True)
+        print(serializer.data)
+        return Response(serializer.data,status=200)
+
+
+class AdminUserPostsDetails(APIView):
+    permission_classes=[IsAdminUser]
+    def get(self,request,id):
+        p = Post.objects.filter(id=id)
+        serializer = GetPostSerializer(instance=p,many=True)
+        print(serializer.data)
+        return Response(serializer.data,status=200)
 

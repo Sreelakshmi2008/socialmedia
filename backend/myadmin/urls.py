@@ -10,7 +10,9 @@ urlpatterns = [
     path('deleteuser/<int:id>/',DeleteUser.as_view(),name='deleteuser'),
     path('blockuser/<int:id>/',BlockUser.as_view(),name='blockuser'),
 
-    path('deletepost/<int:id>/',DeletePost.as_view(),name='deletepost'),
+    path('adminuserposts/<str:userEmail>/',AdminUserPosts.as_view(),name='adminuserposts'),
+    path('adminuserpostsdetails/<uuid:id>/',AdminUserPostsDetails.as_view(),name='adminuserpostsdetails'),
+    path('deletepost/<uuid:id>/',DeletePost.as_view(),name='deletepost'),
     path('deletecomment/<int:id>/',DeleteComment.as_view(),name='deletecomment'),
 
    

@@ -24,6 +24,8 @@ urlpatterns = [
     path('api/',include('authentication.api.urls')),
     path('myadmin/',include('myadmin.urls')),
     path('posts/',include('posts.urls')),
+    path('chat/',include('chat.urls')),
+
     path('auth/',include('drf_social_oauth2.urls',namespace='drf')) # add this
 
 

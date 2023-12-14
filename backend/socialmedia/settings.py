@@ -190,7 +190,7 @@ AUTHENTICATION_BACKENDS = (
 
 
 # Google configuration
-BASE_FRONTEND_URL = os.environ.get('DJANGO_BASE_FRONTEND_URL') 
+BASE_FRONTEND_URL = "https://main.dwywy5lqt6sx6.amplifyapp.com/" 
 GOOGLE_OAUTH2_CLIENT_ID = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
